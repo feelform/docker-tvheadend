@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  tvheadend:
+    container_name: tvheadend
+    image: lsioarmhf/tvheadend
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /mnt/HD/HD_a2/Nas_Prog/tvheadend/config:/config
+      - /mnt/HD/HD_a2/Nas_Prog/tvheadend/recordings:/recordings
+      - /mnt/HD/HD_a2/Nas_Prog/tvheadend/epg2xml:/epg2xml
+    environment:
+      - PUID=0
+      - PGID=0
+      

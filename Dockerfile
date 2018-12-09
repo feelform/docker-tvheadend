@@ -1,4 +1,4 @@
-FROM lsiobase/alpine:3.8 as buildstage
+FROM lsiobase/alpine.armhf:3.8 as buildstage
 ############## build stage ##############
 
 # package versions
