@@ -5,15 +5,13 @@ services:
     container_name: tvheadend
     image: wiserain/tvheadend:stable
     restart: always
-    ports:
-      - "9981:9981"
-      - "9982:9982"
+    network_mode: "host"
     volumes:
       - ./config:/config
       - ./recordings:/recordings
       - ./epg2xml:/epg2xml
     devices:
-      - "/dev/ttys001:/dev/ttys001"      
+      - "/dev/bus/usb/001/003:/dev/bus/usb/001/003"      
     environment:
       - PUID=0
       - PGID=0
