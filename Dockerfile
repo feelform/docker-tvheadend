@@ -1,4 +1,4 @@
-FROM lsiobase/alpine.armhf:3.8 as buildstage
+FROM lsiobase/alpine:3.8 as buildstage
 ############## build stage ##############
 
 # package versions
@@ -21,6 +21,7 @@ RUN \
 	bzip2 \
 	cmake \
 	curl \
+	diffutils \
 	ffmpeg-dev \
 	file \
 	findutils \
@@ -34,6 +35,7 @@ RUN \
 	libgcrypt-dev \
 	libhdhomerun-dev \
 	libtool \
+	libva-dev \
 	libvpx-dev \
 	libxml2-dev \
 	libxslt-dev \
@@ -147,15 +149,7 @@ RUN \
  cd /tmp/tvheadend && \
  ./configure \
 	`#Encoding` \
-	--disable-ffmpeg_static \
-	--disable-libfdkaac_static \
-	--disable-libtheora_static \
-	--disable-libopus_static \
-	--disable-libvorbis_static \
-	--disable-libvpx_static \
-	--disable-libx264_static \
-	--disable-libx265_static \
-	--disable-libfdkaac \
+ 	--enable-libffmpeg_static \
 	--enable-libopus \
 	--enable-libvorbis \
 	--enable-libvpx \
@@ -163,14 +157,15 @@ RUN \
 	--enable-libx265 \
 	\
 	`#Options` \
-	--disable-avahi \
-	--disable-dbus_1 \
 	--disable-bintray_cache \
-	--disable-hdhomerun_static \
+ 	--enable-bundle \
+ 	--enable-dvbcsa \
+	--enable-hdhomerun_static \
 	--enable-hdhomerun_client \
 	--enable-libav \
 	--enable-pngquant \
 	--enable-trace \
+	--enable-vaapi \
 	--infodir=/usr/share/info \
 	--localstatedir=/var \
 	--mandir=/usr/share/man \
@@ -212,7 +207,7 @@ RUN \
  make DESTDIR=/tmp/comskip-build install
 
 ############## runtime stage ##############
-FROM lsiobase/alpine.armhf:3.8
+FROM lsiobase/alpine:3.8
 
 # set version label
 ARG BUILD_DATE
@@ -237,6 +232,8 @@ RUN \
 	libdvbcsa \
 	libhdhomerun-libs \
 	libssl1.0 \
+	libva \
+	libva-intel-driver \
 	libvpx \
 	libxml2 \
 	libxslt \
@@ -315,9 +312,6 @@ COPY --from=buildstage /tmp/xmltv-build/usr/ /usr/
 COPY --from=buildstage /usr/local/share/man/ /usr/local/share/man/
 COPY --from=buildstage /usr/local/share/perl5/ /usr/local/share/perl5/
 COPY root/ /
-
-# add picons
-# ADD picons.tar.bz2 /picons
 
 # ports and volumes
 EXPOSE 9981 9982
