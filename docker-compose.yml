@@ -12,6 +12,8 @@ services:
       - ./config:/config
       - ./recordings:/recordings
       - ./epg2xml:/epg2xml
+    devices:
+      - "/dev/ttys001:/dev/ttys001"      
     environment:
       - PUID=0
       - PGID=0
