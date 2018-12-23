@@ -11,7 +11,7 @@ services:
       - ./recordings:/recordings
       - ./epg2xml:/epg2xml
     devices:
-      - "/dev/bus/usb/001/003:/dev/bus/usb/001/003"      
+      - "/dev/bus/usb/001/002:/dev/bus/usb/001/002"      
     environment:
       - PUID=0
       - PGID=0
