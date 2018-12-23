@@ -10,6 +10,7 @@ services:
       - ./config:/config
       - ./recordings:/recordings
       - ./epg2xml:/epg2xml
+      - ./dvb:/dev/dvb
     devices:
       - "/dev/bus/usb/001/002:/dev/bus/usb/001/002"      
     environment:
